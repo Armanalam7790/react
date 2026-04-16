@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { loginUser } from "./actions/auth.Action";
 
 let authSlice = createSlice({
     name:"auth",
@@ -8,14 +9,28 @@ let authSlice = createSlice({
             isLoading: true,
     },
     reducers:{
-        addUser:(state, action)=>{
-                state.user = action.payload
-                state.isAuthenticated = true
-                state.isLoading  = false
-        },
+       
         removeUser:(state, action)=>{
             state.user = null
                             state.isAuthenticated = false
+                            state.isLoading = false
+        },
+
+
+        extraReducers  :(builder)=>{
+            builder.addCase(loginUser.pendding, (state)=>{
+                state.isLoading = true
+            })
+            .addCase(loginUser.fulfilled, (state, action)=>{
+state.user = action.payload
+state.isAuthenticated = true
+state.isLoading = false
+            })
+            .addCase(loginUser.rejected , (state)=>{
+state.user  = null
+state.isAuthenticated = false
+state.isLoading = false
+            })
         }
     }
 })

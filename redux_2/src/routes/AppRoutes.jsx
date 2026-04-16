@@ -6,14 +6,19 @@ import MainLayout from '../layouts/MainLayout'
 import PublicRoutes from './PublicRoutes'
 import ProtectedRoutes from './ProtectedRoutes'
 import { useDispatch } from 'react-redux'
-import { addUser } from '../features/auth'
+import { addUser, removeUser } from '../features/auth'
 import axios from 'axios'
+import { loginUser } from '../features/actions/auth.Action'
 
 const AppRoutes = () => {
  const dispatch  =     useDispatch()
-let token  =  localStorage.getItem('acessToken')
+let token = localStorage.getItem('accessToken')
+localStorage.setItem("accessToken", res.data.accessToken);
 
     useEffect(()=>{
+          if (!token) {
+    dispatch(removeUser())
+  }
 
             (async()=>{
       try {
@@ -25,7 +30,7 @@ let token  =  localStorage.getItem('acessToken')
 
          console.log(res);
 
-         dispatch(addUser(res.data))
+         dispatch(loginUser(res.data))
          
 
       } catch (error) {
@@ -37,9 +42,7 @@ let token  =  localStorage.getItem('acessToken')
 
 
 
-//   if (token) {
-//     dispatch(addUser(token))
-//   }
+
     },[])
     let router  =  createBrowserRouter([
         {

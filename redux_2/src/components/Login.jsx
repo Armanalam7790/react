@@ -3,6 +3,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { addUser } from "../features/auth";
+import { loginUser } from "../features/actions/auth.Action";
 
 const Login = ({settoggle}) => {
  let dispatch =  useDispatch()
@@ -17,10 +18,7 @@ const Login = ({settoggle}) => {
   const submitHandler = async (data) => {
   
   try {
-     let res = await   axios.post('https://dummyjson.com/auth/login', data)
-     console.log(res);
-     dispatch(addUser(res.data))
-     localStorage.setItem('acessToken' , res.data.accessToken)
+    dispatch(loginUser(data))
      
 
   } catch (error) {
